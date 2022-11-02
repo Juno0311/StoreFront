@@ -1,0 +1,117 @@
+﻿
+@model IPagedList<StoreFront.DATA.EF.Models.Product>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+
+@{
+    ViewData["Title"] = "Shop Wicca";
+}
+
+
+
+<section class="product_section layout_padding">
+    <div class="container">
+        <div class="heading_container heading_center">
+            <h2>
+                Shop <span>Wiccan Items</span>
+            </h2>
+        </div>
+
+        <p align="center">
+            @if (User.IsInRole("Admin"))
+            {
+                <span>
+                    <a asp-action="Create">Add New Item</a> |
+                    <a asp-action="Discontinued">Discontinued Items</a> |
+                </span>
+            }
+            <a asp-action="Index">Table View</a>
+        </p>
+
+        <div class="row">
+
+          
+            <div class="offset-3 col-sm-6">
+                <form asp-action="TiledProducts" method="get">
+
+                   
+                    <label for="categoryId" class="control-label d-block text-center">Filter by Category</label>
+                    <select name="categoryId" onchange="this.form.submit()" class="form-control text-center mb-3" asp-items="ViewBag.CategoryId">
+                        <option value="0">[Choose a Category]</option>
+                    </select>
+
+                   
+                    <input type="text" name="searchTerm" placeholder="Search products" class="form-control text-center" value="@ViewBag.SearchTerm" />
+                    <input type="submit" value="Apply Filters" class="btn btn-primary text-center w-50 d-block" />
+                </form>
+
+                @if (ViewBag.NbrResults != null)
+                {
+                    <p class="mt-5 p-2 alert-warning text-center">
+                        Showing @ViewBag.NbrResults result@(ViewBag.NbrResults > 1 ? "s" : "") for '@ViewBag.SearchTerm'...
+                    </p>
+                }
+
+            </div>
+
+            @foreach (var item in Model)
+            {
+                <div class="col-sm-6 col-md-4 col-lg-4">
+                    <div class="box">
+                        <div class="option_container">
+                            <div class="options">
+                                <a asp-action="Details" asp-route-id="@item.ProductId" class="option1">
+                                    @item.ProductName
+                                </a>
+                                @if (item.UnitsInStock > 0)
+                                {
+                                    <a asp-action="AddToCart" asp-controller="ShoppingCart" asp-route-id="@item.ProductId" class="option2">
+                                        Add To Cart
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a disabled="true" class="option2">
+                                        Out of Stock
+                                    </a>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="img-box">
+                            <img src="~/images/@item.ProductImage" alt="@item.ProductDescription">
+                        </div>
+                        <div class="detail-box">
+                            <h5>
+                                @item.ProductName
+                            </h5>
+                            <h6>
+                                @Html.DisplayFor(modelItem => item.ProductPrice)
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+
+        </div>
+
+      
+        <div class="row mt-5">
+            <div class="mx-auto text-center">
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                <div class="w-100">
+                    @Html.PagedListPager(Model, page => Url.Action("TiledProducts", new {page, searchTerm = ViewBag.SearchTerm, categoryId = ViewBag.CategoryId}))
+                </div>
+            </div>
+        </div>
+
+
+        <div class="btn-box">
+            <a asp-action="TiledProducts">
+                View All products
+            </a>
+        </div>
+    </div>
+</section>

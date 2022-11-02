@@ -1,0 +1,115 @@
+﻿@model IEnumerable<StoreFront.DATA.EF.Models.Product>
+
+@{
+    ViewData["Title"] = "Shop Items";
+}
+
+@*
+   
+*@
+
+<section class="product_section layout_padding">
+    <div class="container">
+        <div class="heading_container heading_center">
+            <h2>
+                Wiccan Items
+            </h2>
+
+            <p align="center">
+                @if (User.IsInRole("Admin"))
+                {
+                    
+                    <span>
+                        <a asp-action="Create">Add New Item</a> |
+                        <a asp-action="Discontinued">Discontinued Items</a> |
+                    </span>
+                }
+                <a asp-action="TiledProducts">Tile View</a>
+            </p>
+
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductPrice)
+                    </th>
+                  
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductImage)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Category)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Supplier)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductPrice)
+                        </td>
+                       
+                        <td>
+                            <img src="~/images/@item.ProductImage" class="img-fluid" alt="@item.ProductDescription" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Supplier.SupplierName)
+                        </td>
+                        <td>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <span>
+                                    <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
+                                </span>
+                            }
+                            <a asp-action="Details" asp-route-id="@item.ProductId">Details</a>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                @if (item.OrderProducts.Count() == 0)
+                                {
+                                    <span>|</span>
+                                    <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                                }
+                                else
+                                {
+                                    <span>|</span>
+                                    <a disabled="disabled" class="text-danger text-decoration-line-through"
+                           title="Cannot delete this Gadget as it is referenced by an Order">
+                                        Delete
+                                    </a>
+                                }
+                            }
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable();
+        });
+    </script>
+}

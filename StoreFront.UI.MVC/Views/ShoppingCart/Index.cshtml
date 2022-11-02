@@ -1,0 +1,114 @@
+﻿@model Dictionary<int, StoreFront.UI.MVC.Models.CartItemViewModel>
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<section class="product_section layout_padding">
+    <div class="container">
+        <div class="heading_container heading_center">
+            <h2>
+                Your <span>Cart</span>
+            </h2>
+
+            <p align="center">
+                <a asp-action="Index" asp-controller="Products" class="btn btn-info">
+                    Back to Shopping
+                </a>
+            </p>
+
+        </div>
+
+        @if (Model.Count == 0)
+        {
+            @*empty*@
+            <p class="alert alert-warning text-center">
+                @ViewBag.Message
+            </p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th class="text-center">Quantity</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img src="~/images/t_@item.Value.CartProd.ProductImage" alt="@item.Value.CartProd.ProductName" />
+                            </td>
+                            <td>
+                                <form asp-action="UpdateCart">
+                                    <input type="hidden" name="productId" value="@item.Value.CartProd.ProductId" />
+                                    <input type="number" min="1" max="@item.Value.CartProd.UnitsInStock" name="qty" value="@item.Value.Qty" class="form-control d-block mx-auto w-50 text-center" />
+                                    <input type="submit" value="Update Cart" class="btn btn-primary btn-sm" />
+                                </form>
+                            </td>
+                            <td>
+                                @item.Value.CartProd.ProductName
+                            </td>
+                            <td>
+                               
+                                @Html.DisplayFor(modelItem => item.Value.CartProd.ProductPrice)
+                               
+                            </td>
+                            <td>
+                               
+                                @{
+                                    
+                                    decimal? lineTotal = item.Value.Qty * item.Value.CartProd.ProductPrice;
+                                }
+
+                                @string.Format($"{lineTotal:c}")
+
+                            </td>
+                            <td>
+                               
+                                <a asp-action="RemoveFromCart" asp-controller="ShoppingCart" asp-route-id="@item.Value.CartProd.ProductId" class="btn btn-danger">
+                                    Remove From Cart
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="alert alert-success text-center">
+                <p>
+                    Your total before taxes and shipping is [Cart Total].
+                </p>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <p>
+                        <a asp-action="SubmitOrder" class="btn btn-primary">
+                            Submit Order
+                        </a>
+                    </p>
+                }
+                else
+                {
+                    <p>To place this order you must be logged in. You can log in <a asp-area="Identity" asp-page="/Account/Login">here.</a></p>
+                    <button disabled="disabled" class="btn btn-primary">Submit Order</button>
+                }
+            </div>
+
+
+        }
+
+
+    </div>
+</section>

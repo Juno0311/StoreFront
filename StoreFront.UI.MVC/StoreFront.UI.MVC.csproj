@@ -8,11 +8,44 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Areas\**" />
+    <Content Remove="Areas\Areas\**" />
+    <EmbeddedResource Remove="Areas\Areas\**" />
+    <None Remove="Areas\Areas\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Products\TiledProducts.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Products\TiledProducts.cshtml" />
+    <None Include="wwwroot\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\js\scripts.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+    <PackageReference Include="x.pagedlist.mvc.core" Version="8.4.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StoreFront.DATA.EF\StoreFront.DATA.EF.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Products\TiledProducts.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Products\TiledProducts.cshtml" />
   </ItemGroup>
 
 </Project>
