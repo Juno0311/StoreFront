@@ -2,3 +2,12 @@
     padding-top: 1000px;
     padding-bottom: 1000px;
 }
+
+.products-link {
+    color: #c271FB;
+    text-decoration: none;
+}
+.homeShopButton{
+    text-decoration: none;
+    font-weight: bold;
+}

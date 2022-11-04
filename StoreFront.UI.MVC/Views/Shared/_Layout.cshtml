@@ -16,47 +16,49 @@
     <link href="~/css/font-awesome.min.css" rel="stylesheet"/>
     <link href="~/css/PagedList.css" rel="stylesheet" />
     <link href="~/css/responsive.css" rel="stylesheet" />
+    <link href="~/css/ahh.css" rel="stylesheet"/>
     <link href="~/css/styles.css" rel="stylesheet" />
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg custom_nav-container ">
-        <a class="navbar-brand" href="@Url.Action("Index", "Home")"></a>
+    <nav class="navbar navbar-expand-lg custom_nav-container menu">
+        <li><a class="navbar-brand" href="@Url.Action("Index", "Home")"></a></li>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class=""> </span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("Index", "Home")">Home <span class="sr-only"></span></a>
                 </li>
 
 
 
-             @*   @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin"))
                 {
+
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
-                            <span class="nav-label">
-                                Admin
-                                <span class="caret"></span>
-                            </span>
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+                            Admin
+                            
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="@Url.Action("ListUsers", "Administration")">Users</a></li>
-                            <li><a href="@Url.Action("ListRoles", "Administration")">Roles</a></li>
-                            <li>
+                            <li class="dropdown-item"><a href="@Url.Action("ListUsers", "Administration")">Users</a></li>
+                            <li class="dropdown-item"><a href="@Url.Action("ListRoles", "Administration")">Roles</a></li>
+                            <li class="dropdown-item">
                                 <a href="@Url.Action("Index", "Suppliers")">Suppliers</a>
                             </li>
-                            <li>
+                            <li class="dropdown-item">
                                 <a href="@Url.Action("Index", "Categories")">Categories</a>
                             </li>
-                            <li>
+                            <li class="dropdown-item">
                                 <a href="@Url.Action("Index", "OrderProducts")">Products in Orders</a>
                             </li>
                         </ul>
-                    </li>
+                </li>
 
-                }*@
+                }
+         
+
 
 
                 <li class="nav-item">
@@ -95,5 +97,29 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+    <script>
+
+        //For each <li> in the <nav class="menu">, apply the following function
+
+        $('.menu li').each(function () {
+
+            //If the <a> tag inside a <li> is linked to the current URL
+
+            if ($(this).find('a').attr('href') == window.location.pathname) {
+
+                //Add the "active" class to the <a> tag
+
+                $(this).addClass('active');
+
+            }
+
+        });
+
+    </script>
     </body>
 </html>
+
+
+                @*Abc1234!*@

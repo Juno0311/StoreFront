@@ -4,11 +4,19 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Order</h4>
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Edit Order</h1>
+            <p>
+                <a class="products-link" asp-action="Index">Back to List</a>
+            </p>
+        </div>
+    </div>
+</header>
 <hr />
 <div class="row">
+    <div class="col-md-4"><span></span></div>
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -40,9 +48,7 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

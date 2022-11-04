@@ -4,13 +4,22 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>Product</h4>
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Add New Product</h1>
+            <p><a class="products-link" asp-action="Index">Back to List</a></p>
+        </div>
+    </div>
+</header>
 <hr />
+
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <span></span>
+    </div>
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ProductName" class="control-label"></label>
@@ -42,6 +51,7 @@
                     <input class="form-check-input" asp-for="IsDiscontinued" /> @Html.DisplayNameFor(model => model.IsDiscontinued)
                 </label>
             </div>
+            <br />
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
                 <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId"></select>
@@ -50,11 +60,14 @@
                 <label asp-for="SupplierId" class="control-label"></label>
                 <select asp-for="SupplierId" class ="form-control" asp-items="ViewBag.SupplierId"></select>
             </div>
+
             <div class="form-group">
                 <label asp-for="ProductImage" class="control-label"></label>
-                <input asp-for="ProductImage" class="form-control" />
+                <input type="file" asp-for="Image" class="form-control"/>
+                @*<input asp-for="ProductImage" class="form-control" />*@
                 <span asp-validation-for="ProductImage" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -62,9 +75,6 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

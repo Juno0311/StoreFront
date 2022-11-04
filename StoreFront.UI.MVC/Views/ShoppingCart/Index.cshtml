@@ -7,20 +7,20 @@
     ViewData["Title"] = "Cart";
 }
 
-<section class="product_section layout_padding">
-    <div class="container">
-        <div class="heading_container heading_center">
-            <h2>
-                Your <span>Cart</span>
-            </h2>
-
-            <p align="center">
-                <a asp-action="Index" asp-controller="Products" class="btn btn-info">
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Shopping Cart</h1>
+            <p>
+                <a asp-action="Index" asp-controller="Products" class="products-link">
                     Back to Shopping
                 </a>
             </p>
-
         </div>
+    </div>
+</header>
+<section class="product_section layout_padding">
+    <div class="container">
 
         @if (Model.Count == 0)
         {

@@ -5,7 +5,13 @@
 @{
     ViewData["Title"] = "Create a Role";
 }
-
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Create New Role</h1>
+        </div>
+    </div>
+</header>
 <form asp-action="CreateRole" method="post" class="mt-3">
     <div asp-validation-summary="All" class="text-danger"></div>
 

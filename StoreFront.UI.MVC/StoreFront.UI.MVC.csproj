@@ -15,11 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Products\TiledProducts.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\Products\TiledProducts.cshtml" />
     <None Include="wwwroot\fonts\fontawesome-webfont.woff2" />
     <None Include="wwwroot\js\scripts.js" />
   </ItemGroup>
@@ -38,14 +33,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StoreFront.DATA.EF\StoreFront.DATA.EF.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Products\TiledProducts.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Products\TiledProducts.cshtml" />
   </ItemGroup>
 
 </Project>

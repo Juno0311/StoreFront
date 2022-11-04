@@ -1,46 +1,48 @@
-﻿
-@model IPagedList<StoreFront.DATA.EF.Models.Product>
+﻿@model IPagedList<StoreFront.DATA.EF.Models.Product>
 @using X.PagedList.Mvc.Core;
 @using X.PagedList;
 
 @{
-    ViewData["Title"] = "Shop Wicca";
+    ViewData["Title"] = "Tile View";
 }
 
 
-
 <section class="product_section layout_padding">
+    <header class="bg-dark py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Products</h1>
+                <p align="center">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <span>
+                            <a class="products-link" asp-action="Create">Add New Item</a> |
+                        </span>
+                    }
+                    <a class="products-link" asp-action="Index">Table View</a>
+                </p>
+            </div>
+        </div>
+    </header>
     <div class="container">
         <div class="heading_container heading_center">
-            <h2>
-                Shop <span>Wiccan Items</span>
-            </h2>
         </div>
 
-        <p align="center">
-            @if (User.IsInRole("Admin"))
-            {
-                <span>
-                    <a asp-action="Create">Add New Item</a> |
-                    <a asp-action="Discontinued">Discontinued Items</a> |
-                </span>
-            }
-            <a asp-action="Index">Table View</a>
-        </p>
+       
 
         <div class="row">
 
-          
-            <div class="offset-3 col-sm-6">
-                <form asp-action="TiledProducts" method="get">
 
-                   
+            <div class="offset-3 col-sm-6">
+                <form asp-action="TestTiledProducts" method="get">
+
+
                     <label for="categoryId" class="control-label d-block text-center">Filter by Category</label>
                     <select name="categoryId" onchange="this.form.submit()" class="form-control text-center mb-3" asp-items="ViewBag.CategoryId">
                         <option value="0">[Choose a Category]</option>
                     </select>
 
-                   
+
                     <input type="text" name="searchTerm" placeholder="Search products" class="form-control text-center" value="@ViewBag.SearchTerm" />
                     <input type="submit" value="Apply Filters" class="btn btn-primary text-center w-50 d-block" />
                 </form>
@@ -97,19 +99,19 @@
 
         </div>
 
-      
+
         <div class="row mt-5">
             <div class="mx-auto text-center">
                 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
                 <div class="w-100">
-                    @Html.PagedListPager(Model, page => Url.Action("TiledProducts", new {page, searchTerm = ViewBag.SearchTerm, categoryId = ViewBag.CategoryId}))
+                    @Html.PagedListPager(Model, page => Url.Action("TestTiledProducts", new {page, searchTerm = ViewBag.SearchTerm, categoryId = ViewBag.CategoryId}))
                 </div>
             </div>
         </div>
 
 
         <div class="btn-box">
-            <a asp-action="TiledProducts">
+            <a asp-action="TestTiledProducts">
                 View All products
             </a>
         </div>

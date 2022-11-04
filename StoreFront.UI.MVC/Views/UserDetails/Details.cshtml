@@ -4,10 +4,18 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">User Details</h1>
+            <p>
+                <a class="products-link" asp-action="Edit" asp-route-id="@Model?.UserId">Edit</a> |
+                <a class="products-link" asp-action="Index">Back to List</a>
+            </p>
+        </div>
+    </div>
+</header>
 <div>
-    <h4>UserDetail</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -53,8 +61,4 @@
             @Html.DisplayFor(model => model.Phone)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.UserId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
 </div>

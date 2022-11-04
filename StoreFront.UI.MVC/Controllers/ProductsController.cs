@@ -42,51 +42,6 @@ namespace GadgetStore.UI.MVC.Controllers
             return View(await products.ToListAsync());
         }
 
-
-
-
-    
-        public IActionResult TiledProducts(string searchTerm, int categoryId = 0, int page = 1)
-        {
-            int pageSize = 6;
-
-
-            var products = _context.Products.Where(p => !p.IsDiscontinued)
-                .Include(p => p.Category).Include(p => p.Supplier).Include(p => p.OrderProducts).ToList();
-
-
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
-
-
-            if (categoryId != 0)
-            {
-                products = products.Where(p => p.CategoryId == categoryId).ToList();
-                ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", categoryId);
-            }
-
-            #region Optional Search Filter
-            if (!String.IsNullOrEmpty(searchTerm))
-            {
-                products = products.Where(p =>
-                                    p.ProductName.ToLower().Contains(searchTerm.ToLower())
-                                    || p.Supplier.SupplierName.ToLower().Contains(searchTerm.ToLower())
-                                    || p.ProductDescription.ToLower().Contains(searchTerm.ToLower())
-                                    || p.Category.CategoryName.ToLower().Contains(searchTerm.ToLower())).ToList();
-
-                ViewBag.SearchTerm = searchTerm;
-                ViewBag.NbrResults = products.Count;
-            }
-            else
-            {
-                ViewBag.SearchTerm = null;
-                ViewBag.NbrResults = null;
-            }
-            #endregion
-
-            return View(products.ToPagedList(page, pageSize));
-        }
-
-
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Products == null)
@@ -155,7 +110,7 @@ namespace GadgetStore.UI.MVC.Controllers
                 else
                 {
                  
-                    product.ProductImage = "noimage.png";
+                    product.ProductImage = "noimage.jpg";
                 }
 
                 
@@ -200,27 +155,35 @@ namespace GadgetStore.UI.MVC.Controllers
 
             if (ModelState.IsValid)
             {
-
+                #region File Upload - EDIT
+                //retain old image file name so we can delete if a new file was uploaded
                 string oldImageName = product.ProductImage;
 
+                //Check if the user uploaded a file
                 if (product.Image != null)
                 {
+                    //get the file's extension
                     string ext = Path.GetExtension(product.Image.FileName);
 
+                    //list valid extensions
                     string[] validExts = { ".jpeg", ".jpg", ".png", ".gif" };
 
+                    //check the file's extension against the list of valid extensions
                     if (validExts.Contains(ext.ToLower()) && product.Image.Length < 4_194_303)
                     {
-                        
+                        //generate a unique file name
                         product.ProductImage = Guid.NewGuid() + ext;
+                        //build our file path to save the image
                         string webRootPath = _webHostEnvironment.WebRootPath;
                         string fullPath = webRootPath + "/images/";
 
-                        if (oldImageName != "noimage.png")
+                        //Delete the old image
+                        if (oldImageName != "noimage.jpg")
                         {
                             ImageUtility.Delete(fullPath, oldImageName);
                         }
 
+                        //Save the new image to webroot
                         using (var memoryStream = new MemoryStream())
                         {
                             await product.Image.CopyToAsync(memoryStream);
@@ -234,6 +197,7 @@ namespace GadgetStore.UI.MVC.Controllers
 
                     }
                 }
+                #endregion
 
                 try
                 {
@@ -254,9 +218,10 @@ namespace GadgetStore.UI.MVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "SupplierName", product.SupplierId);
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "Address", product.SupplierId);
             return View(product);
         }
+
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
@@ -301,5 +266,48 @@ namespace GadgetStore.UI.MVC.Controllers
         {
             return (_context.Products?.Any(e => e.ProductId == id)).GetValueOrDefault();
         }
-    }
-}
+
+
+
+        public IActionResult TestTiledProducts(string searchTerm, int categoryId = 0, int page = 1)
+        {
+            int pageSize = 6;
+
+
+            var products = _context.Products.Where(p => !p.IsDiscontinued)
+                .Include(p => p.Category).Include(p => p.Supplier).Include(p => p.OrderProducts).ToList();
+
+
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
+
+
+            if (categoryId != 0)
+            {
+                products = products.Where(p => p.CategoryId == categoryId).ToList();
+                ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", categoryId);
+            }
+
+            #region Optional Search Filter
+            if (!String.IsNullOrEmpty(searchTerm))
+            {
+                products = products.Where(p =>
+                                    p.ProductName.ToLower().Contains(searchTerm.ToLower())
+                                    || p.Supplier.SupplierName.ToLower().Contains(searchTerm.ToLower())
+                                    || p.ProductDescription.ToLower().Contains(searchTerm.ToLower())
+                                    || p.Category.CategoryName.ToLower().Contains(searchTerm.ToLower())).ToList();
+
+                ViewBag.SearchTerm = searchTerm;
+                ViewBag.NbrResults = products.Count;
+            }
+            else
+            {
+                ViewBag.SearchTerm = null;
+                ViewBag.NbrResults = null;
+            }
+            #endregion
+
+            return View(products.ToPagedList(page, pageSize));
+        }
+
+    }//main
+}//name

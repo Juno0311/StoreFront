@@ -6,9 +6,14 @@
     ViewData["Title"] = "List Roles";
 }
 
-<h1>Roles</h1>
-
-
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Roles</h1>
+        </div>
+    </div>
+</header>
+<br />
 @if (Model.Any())
 {
     <a class="btn btn-primary mb-3" style="width:auto" asp-action="CreateRole"

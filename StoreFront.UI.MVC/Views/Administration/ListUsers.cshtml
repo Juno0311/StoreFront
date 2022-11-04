@@ -7,8 +7,14 @@
 }
 
 
-<h1>All Users</h1>
-
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">All Users</h1>
+        </div>
+    </div>
+</header>
+<br />
 @if (Model.Any())
 {
     <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary mb-3" style="width:auto">
